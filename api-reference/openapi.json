@@ -1,94 +1,46 @@
 {
-  "openapi": "3.1.0",
+  "openapi": "3.0.3",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
+    "title": "SymbioticExplorer API",
+    "description": "SymbioticExplorer is a community-driven data platform.",
+    "version": "0.0.1",
     "license": {
-      "name": "MIT"
-    },
-    "version": "1.0.0"
+      "name": "MIT",
+      "url": "https://spdx.org/licenses/MIT.html"
+    }
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
+      "url": "https://api.symbioticexplorer.com",
+      "description": "SymbioticExplorer Production API"
     }
   ],
   "paths": {
-    "/plants": {
+    "/version": {
       "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
+        "operationId": "getVersion",
+        "summary": "Retrieve API server version",
+        "description": "Returns API server version.",
+        "tags": [
+          "System"
         ],
         "responses": {
           "200": {
-            "description": "Plant response",
+            "description": "The API server version.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string",
+                      "description": "The version of the API server",
+                      "example": "v0.0.1"
+                    }
+                  },
+                  "required": [
+                    "version"
+                  ]
                 }
               }
             }
@@ -96,121 +48,3015 @@
         }
       }
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
+    "/health": {
+      "get": {
+        "operationId": "getHealth",
+        "summary": "Retrieve API server status",
+        "description": "Returns API server status.",
+        "tags": [
+          "System"
         ],
         "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
+          "200": {
+            "description": "The API server status.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "The status of the API server",
+                      "example": "ok"
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
                 }
               }
             }
           }
         }
       }
-    }
-  },
-  "webhooks": {
-    "/plant/webhook": {
-      "post": {
-        "description": "Information about a new plant added to the store",
-        "requestBody": {
-          "description": "Plant added to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
+    },
+    "/networks": {
+      "get": {
+        "operationId": "getAllNetworks",
+        "summary": "Retrieve all networks",
+        "description": "Returns all network records. This endpoint supports pagination.",
+        "tags": [
+          "Networks"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sortByTotalOperators",
+            "description": "Sort results in asc or desc order of total operators",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total operators",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTotalVaults",
+            "description": "Sort results in asc or desc order of total vaults",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total vaults",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTvl",
+            "description": "Sort results in asc or desc order of TVL value",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of TVL value",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "The number of records to skip for pagination",
+            "schema": {
+              "type": "string",
+              "default": "0",
+              "description": "The number of records to skip for pagination",
+              "example": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "take",
+            "description": "The number of records to return for pagination",
+            "schema": {
+              "type": "string",
+              "default": "12",
+              "description": "The number of records to return for pagination",
+              "example": 12
             }
           }
-        },
+        ],
         "responses": {
           "200": {
-            "description": "Return a 200 status to indicate that the data was received successfully"
+            "description": "The list of network records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string",
+                            "pattern": "^0x[a-fA-F0-9]{40}$",
+                            "description": "The address of the network",
+                            "example": "0xe4661bdbc4f557d2684f8a7c4af50572e51d4166"
+                          },
+                          "metadataName": {
+                            "type": "string",
+                            "description": "The name of the Network",
+                            "example": "Example Network Name"
+                          },
+                          "metadataDescription": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "The description of the Network",
+                            "example": "This is an example Network"
+                          },
+                          "metadataTags": {
+                            "type": "array",
+                            "nullable": true,
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Tags specifying the network's functionalities, supported services, and affiliations within the Symbiotic ecosystem.",
+                            "example": [
+                              "network",
+                              "data availability"
+                            ]
+                          },
+                          "metadataLogo": {
+                            "type": "string",
+                            "nullable": true,
+                            "format": "uri",
+                            "description": "The URL of the Network's logo"
+                          },
+                          "createdAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the network was registered",
+                            "example": "19631203"
+                          },
+                          "updatedAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the network registration was last updated",
+                            "example": "19631203"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "description": "The timestamp at which the network was registered",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "description": "The timestamp at which the network registration was last updated",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "totalOperators": {
+                            "type": "number",
+                            "description": "The total number of operators associated with the network",
+                            "example": 10
+                          },
+                          "totalVaults": {
+                            "type": "number",
+                            "description": "The total number of vaults linked to the network",
+                            "example": 10
+                          },
+                          "tvlUsd": {
+                            "type": "number",
+                            "description": "The total value locked (TVL) in the network, denominated in USD",
+                            "example": 100
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "metadataName",
+                          "metadataDescription",
+                          "metadataTags",
+                          "metadataLogo",
+                          "createdAtBlock",
+                          "updatedAtBlock",
+                          "createdAt",
+                          "updatedAt",
+                          "totalOperators",
+                          "totalVaults",
+                          "tvlUsd"
+                        ]
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number",
+                          "description": "Total number of records in the database",
+                          "example": 30
+                        },
+                        "skip": {
+                          "type": "number",
+                          "description": "The number of skiped records for this query",
+                          "example": 0
+                        },
+                        "take": {
+                          "type": "number",
+                          "description": "The number of records returned for this query",
+                          "example": 12
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "skip",
+                        "take"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/networks/{address}": {
+      "get": {
+        "operationId": "getNetworkByAddress",
+        "summary": "Retrieve a network by address",
+        "description": "Returns a network record by address.",
+        "tags": [
+          "Networks"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "description": "The address of the network",
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$",
+              "description": "The address of the network",
+              "example": "0xe4661bdbc4f557d2684f8a7c4af50572e51d4166"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The record of the requested network.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "address": {
+                      "type": "string",
+                      "pattern": "^0x[a-fA-F0-9]{40}$",
+                      "description": "The address of the network",
+                      "example": "0xe4661bdbc4f557d2684f8a7c4af50572e51d4166"
+                    },
+                    "metadataName": {
+                      "type": "string",
+                      "description": "The name of the Network",
+                      "example": "Example Network Name"
+                    },
+                    "metadataDescription": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "The description of the Network",
+                      "example": "This is an example Network"
+                    },
+                    "metadataTags": {
+                      "type": "array",
+                      "nullable": true,
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Tags specifying the network's functionalities, supported services, and affiliations within the Symbiotic ecosystem.",
+                      "example": [
+                        "network",
+                        "data availability"
+                      ]
+                    },
+                    "metadataLogo": {
+                      "type": "string",
+                      "nullable": true,
+                      "format": "uri",
+                      "description": "The URL of the Network's logo"
+                    },
+                    "createdAtBlock": {
+                      "type": "string",
+                      "description": "The block number at which the network was registered",
+                      "example": "19631203"
+                    },
+                    "updatedAtBlock": {
+                      "type": "string",
+                      "description": "The block number at which the network registration was last updated",
+                      "example": "19631203"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "description": "The timestamp at which the network was registered",
+                      "example": "2024-04-11T08:31:11.000Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "description": "The timestamp at which the network registration was last updated",
+                      "example": "2024-04-11T08:31:11.000Z"
+                    },
+                    "totalOperators": {
+                      "type": "number",
+                      "description": "The total number of operators associated with the network",
+                      "example": 10
+                    },
+                    "totalVaults": {
+                      "type": "number",
+                      "description": "The total number of vaults linked to the network",
+                      "example": 10
+                    },
+                    "tvlUsd": {
+                      "type": "number",
+                      "description": "The total value locked (TVL) in the network, denominated in USD",
+                      "example": 100
+                    }
+                  },
+                  "required": [
+                    "address",
+                    "metadataName",
+                    "metadataDescription",
+                    "metadataTags",
+                    "metadataLogo",
+                    "createdAtBlock",
+                    "updatedAtBlock",
+                    "createdAt",
+                    "updatedAt",
+                    "totalOperators",
+                    "totalVaults",
+                    "tvlUsd"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/networks/{address}/vaults": {
+      "get": {
+        "operationId": "getNetworkVaults",
+        "summary": "Retrieve vaults for a given network address",
+        "description": "Returns a list of vaults for a given network address. This endpoint supports pagination.",
+        "tags": [
+          "Networks"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "description": "The address of the network",
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$",
+              "description": "The address of the network",
+              "example": "0xe4661bdbc4f557d2684f8a7c4af50572e51d4166"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "sortByTotalNetworks",
+            "description": "Sort results in asc or desc order of total networks",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total networks",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTotalOperators",
+            "description": "Sort results in asc or desc order of total operators",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total operators",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTvl",
+            "description": "Sort results in asc or desc order of TVL value",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of TVL value",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "The number of records to skip for pagination",
+            "schema": {
+              "type": "string",
+              "default": "0",
+              "description": "The number of records to skip for pagination",
+              "example": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "take",
+            "description": "The number of records to return for pagination",
+            "schema": {
+              "type": "string",
+              "default": "12",
+              "description": "The number of records to return for pagination",
+              "example": 12
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The vaults found for the requested network.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string",
+                            "pattern": "^0x[a-fA-F0-9]{40}$",
+                            "description": "The contract address of the vault",
+                            "example": "0xe1f23869776c82f691d9cb34597ab1830fb0de58"
+                          },
+                          "metadataName": {
+                            "type": "string",
+                            "description": "The name of the Vault",
+                            "example": "Example Vault Name"
+                          },
+                          "metadataDescription": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "The description of the Vault",
+                            "example": "This is an example Vault"
+                          },
+                          "metadataTags": {
+                            "type": "array",
+                            "nullable": true,
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Tags describing the vault's configuration, supported tokens and affiliations within the Symbiotic ecosystem.",
+                            "example": [
+                              "vault",
+                              "token: "
+                            ]
+                          },
+                          "metadataLogo": {
+                            "type": "string",
+                            "nullable": true,
+                            "format": "uri",
+                            "description": "The URL of the Vault's logo"
+                          },
+                          "collateralAddress": {
+                            "type": "string",
+                            "description": "The token address accepted as collateral in the vault",
+                            "example": "0x93a2db22b7c736b341c32ff666307f4a9ed910f5"
+                          },
+                          "delegatorAddress": {
+                            "type": "string",
+                            "description": "The address authorized to delegate the vault's collateral",
+                            "example": "0x094934bed37db229b6534621446e5b162aade546"
+                          },
+                          "slasherAddress": {
+                            "type": "string",
+                            "description": "The address responsible for initiating slashing events in case of operator misbehavior",
+                            "example": "0xc24eb8f1b9a99476b5a1f3779ee9129854f10540"
+                          },
+                          "createdAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the vault was registered",
+                            "example": "19631203"
+                          },
+                          "updatedAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the vault registration was last updated",
+                            "example": "19631203"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "description": "The time stamp at which the vault was registered",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "description": "The time stamp at which the vault registration was last updated",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "totalOperators": {
+                            "type": "number",
+                            "description": "The total number of operators currently receiving delegated collateral from this vault",
+                            "example": 10
+                          },
+                          "totalNetworks": {
+                            "type": "number",
+                            "description": "The total number of networks this vault is supporting through delegated collateral",
+                            "example": 10
+                          },
+                          "tvl": {
+                            "type": "number",
+                            "description": "The total amount of collateral (in token units) currently deposited in this vault",
+                            "example": 10
+                          },
+                          "tvlUsd": {
+                            "type": "number",
+                            "description": "The total value currently deposited in this vault, denominated in USD",
+                            "example": 100
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "metadataName",
+                          "metadataDescription",
+                          "metadataTags",
+                          "metadataLogo",
+                          "collateralAddress",
+                          "delegatorAddress",
+                          "slasherAddress",
+                          "createdAtBlock",
+                          "updatedAtBlock",
+                          "createdAt",
+                          "updatedAt",
+                          "totalOperators",
+                          "totalNetworks",
+                          "tvl",
+                          "tvlUsd"
+                        ]
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number",
+                          "description": "Total number of records in the database",
+                          "example": 30
+                        },
+                        "skip": {
+                          "type": "number",
+                          "description": "The number of skiped records for this query",
+                          "example": 0
+                        },
+                        "take": {
+                          "type": "number",
+                          "description": "The number of records returned for this query",
+                          "example": 12
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "skip",
+                        "take"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/networks/{address}/operators": {
+      "get": {
+        "operationId": "getNetworkOperators",
+        "summary": "Retrieve operators for a given network address",
+        "description": "Returns a list of operators for a given network address. This endpoint supports pagination.",
+        "tags": [
+          "Networks"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "description": "The address of the network",
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$",
+              "description": "The address of the network",
+              "example": "0xe4661bdbc4f557d2684f8a7c4af50572e51d4166"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "sortByTotalNetworks",
+            "description": "Sort results in asc or desc order of total networks",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total networks",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTotalVaults",
+            "description": "Sort results in asc or desc order of total vaults",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total vaults",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTvl",
+            "description": "Sort results in asc or desc order of TVL value",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of TVL value",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "The number of records to skip for pagination",
+            "schema": {
+              "type": "string",
+              "default": "0",
+              "description": "The number of records to skip for pagination",
+              "example": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "take",
+            "description": "The number of records to return for pagination",
+            "schema": {
+              "type": "string",
+              "default": "12",
+              "description": "The number of records to return for pagination",
+              "example": 12
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operators found for the requested network.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string",
+                            "pattern": "^0x[a-fA-F0-9]{40}$",
+                            "description": "The address of the operator",
+                            "example": "0xd741f826c60dacebb8835278e0f18f1c5dd4c6d0"
+                          },
+                          "metadataName": {
+                            "type": "string",
+                            "description": "The name of the Operator",
+                            "example": "Example Operator Name"
+                          },
+                          "metadataDescription": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "The description of the Operator",
+                            "example": "This is an example Operator"
+                          },
+                          "metadataTags": {
+                            "type": "array",
+                            "nullable": true,
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Tags identifying the operator's roles, services, and affiliations within the Symbiotic ecosystem.​",
+                            "example": [
+                              "operator"
+                            ]
+                          },
+                          "metadataLogo": {
+                            "type": "string",
+                            "nullable": true,
+                            "format": "uri",
+                            "description": "The URL of the Operator's logo"
+                          },
+                          "createdAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the operator was registered",
+                            "example": "19631203"
+                          },
+                          "updatedAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the operator registration was last updated",
+                            "example": "19631203"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "description": "The timestamp at which the operator was registered",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "description": "The timestamp at which the operator registration was last updated",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "totalNetworks": {
+                            "type": "number",
+                            "description": "The total number of networks opted by the operator",
+                            "example": 10
+                          },
+                          "totalVaults": {
+                            "type": "number",
+                            "description": "The total number of vaults the operator contributes to",
+                            "example": 10
+                          },
+                          "tvlUsd": {
+                            "type": "number",
+                            "description": "Total value locked (TVL) managed by the operator across all vaults, denominated in USD",
+                            "example": 100
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "metadataName",
+                          "metadataDescription",
+                          "metadataTags",
+                          "metadataLogo",
+                          "createdAtBlock",
+                          "updatedAtBlock",
+                          "createdAt",
+                          "updatedAt",
+                          "totalNetworks",
+                          "totalVaults",
+                          "tvlUsd"
+                        ]
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number",
+                          "description": "Total number of records in the database",
+                          "example": 30
+                        },
+                        "skip": {
+                          "type": "number",
+                          "description": "The number of skiped records for this query",
+                          "example": 0
+                        },
+                        "take": {
+                          "type": "number",
+                          "description": "The number of records returned for this query",
+                          "example": 12
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "skip",
+                        "take"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/operators": {
+      "get": {
+        "operationId": "getAllOperators",
+        "summary": "Retrieve all operators",
+        "description": "Returns all operator records. This endpoint supports pagination.",
+        "tags": [
+          "Operators"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sortByTotalNetworks",
+            "description": "Sort results in asc or desc order of total networks",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total networks",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTotalVaults",
+            "description": "Sort results in asc or desc order of total vaults",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total vaults",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTvl",
+            "description": "Sort results in asc or desc order of TVL value",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of TVL value",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "The number of records to skip for pagination",
+            "schema": {
+              "type": "string",
+              "default": "0",
+              "description": "The number of records to skip for pagination",
+              "example": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "take",
+            "description": "The number of records to return for pagination",
+            "schema": {
+              "type": "string",
+              "default": "12",
+              "description": "The number of records to return for pagination",
+              "example": 12
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of operator records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string",
+                            "pattern": "^0x[a-fA-F0-9]{40}$",
+                            "description": "The address of the operator",
+                            "example": "0xd741f826c60dacebb8835278e0f18f1c5dd4c6d0"
+                          },
+                          "metadataName": {
+                            "type": "string",
+                            "description": "The name of the Operator",
+                            "example": "Example Operator Name"
+                          },
+                          "metadataDescription": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "The description of the Operator",
+                            "example": "This is an example Operator"
+                          },
+                          "metadataTags": {
+                            "type": "array",
+                            "nullable": true,
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Tags identifying the operator's roles, services, and affiliations within the Symbiotic ecosystem.​",
+                            "example": [
+                              "operator"
+                            ]
+                          },
+                          "metadataLogo": {
+                            "type": "string",
+                            "nullable": true,
+                            "format": "uri",
+                            "description": "The URL of the Operator's logo"
+                          },
+                          "createdAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the operator was registered",
+                            "example": "19631203"
+                          },
+                          "updatedAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the operator registration was last updated",
+                            "example": "19631203"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "description": "The timestamp at which the operator was registered",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "description": "The timestamp at which the operator registration was last updated",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "totalNetworks": {
+                            "type": "number",
+                            "description": "The total number of networks opted by the operator",
+                            "example": 10
+                          },
+                          "totalVaults": {
+                            "type": "number",
+                            "description": "The total number of vaults the operator contributes to",
+                            "example": 10
+                          },
+                          "tvlUsd": {
+                            "type": "number",
+                            "description": "Total value locked (TVL) managed by the operator across all vaults, denominated in USD",
+                            "example": 100
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "metadataName",
+                          "metadataDescription",
+                          "metadataTags",
+                          "metadataLogo",
+                          "createdAtBlock",
+                          "updatedAtBlock",
+                          "createdAt",
+                          "updatedAt",
+                          "totalNetworks",
+                          "totalVaults",
+                          "tvlUsd"
+                        ]
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number",
+                          "description": "Total number of records in the database",
+                          "example": 30
+                        },
+                        "skip": {
+                          "type": "number",
+                          "description": "The number of skiped records for this query",
+                          "example": 0
+                        },
+                        "take": {
+                          "type": "number",
+                          "description": "The number of records returned for this query",
+                          "example": 12
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "skip",
+                        "take"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/operators/{address}": {
+      "get": {
+        "operationId": "getOperatorByAddress",
+        "summary": "Retrieve an operator by address",
+        "description": "Returns an operator record by address.",
+        "tags": [
+          "Operators"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "description": "The address of the operator",
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$",
+              "description": "The address of the operator",
+              "example": "0xd741f826c60dacebb8835278e0f18f1c5dd4c6d0"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The record of the requested operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "address": {
+                      "type": "string",
+                      "pattern": "^0x[a-fA-F0-9]{40}$",
+                      "description": "The address of the operator",
+                      "example": "0xd741f826c60dacebb8835278e0f18f1c5dd4c6d0"
+                    },
+                    "metadataName": {
+                      "type": "string",
+                      "description": "The name of the Operator",
+                      "example": "Example Operator Name"
+                    },
+                    "metadataDescription": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "The description of the Operator",
+                      "example": "This is an example Operator"
+                    },
+                    "metadataTags": {
+                      "type": "array",
+                      "nullable": true,
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Tags identifying the operator's roles, services, and affiliations within the Symbiotic ecosystem.​",
+                      "example": [
+                        "operator"
+                      ]
+                    },
+                    "metadataLogo": {
+                      "type": "string",
+                      "nullable": true,
+                      "format": "uri",
+                      "description": "The URL of the Operator's logo"
+                    },
+                    "createdAtBlock": {
+                      "type": "string",
+                      "description": "The block number at which the operator was registered",
+                      "example": "19631203"
+                    },
+                    "updatedAtBlock": {
+                      "type": "string",
+                      "description": "The block number at which the operator registration was last updated",
+                      "example": "19631203"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "description": "The timestamp at which the operator was registered",
+                      "example": "2024-04-11T08:31:11.000Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "description": "The timestamp at which the operator registration was last updated",
+                      "example": "2024-04-11T08:31:11.000Z"
+                    },
+                    "totalNetworks": {
+                      "type": "number",
+                      "description": "The total number of networks opted by the operator",
+                      "example": 10
+                    },
+                    "totalVaults": {
+                      "type": "number",
+                      "description": "The total number of vaults the operator contributes to",
+                      "example": 10
+                    },
+                    "tvlUsd": {
+                      "type": "number",
+                      "description": "Total value locked (TVL) managed by the operator across all vaults, denominated in USD",
+                      "example": 100
+                    }
+                  },
+                  "required": [
+                    "address",
+                    "metadataName",
+                    "metadataDescription",
+                    "metadataTags",
+                    "metadataLogo",
+                    "createdAtBlock",
+                    "updatedAtBlock",
+                    "createdAt",
+                    "updatedAt",
+                    "totalNetworks",
+                    "totalVaults",
+                    "tvlUsd"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/operators/{address}/vaults": {
+      "get": {
+        "operationId": "getOperatorVaults",
+        "summary": "Retrieve vaults for a given operator address",
+        "description": "Returns a list of vaults for a gien operator address. This endpoint supports pagination.",
+        "tags": [
+          "Operators"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "description": "The address of the operator",
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$",
+              "description": "The address of the operator",
+              "example": "0xd741f826c60dacebb8835278e0f18f1c5dd4c6d0"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "sortByTotalOperators",
+            "description": "Sort results in asc or desc order of total operators",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total operators",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTotalNetworks",
+            "description": "Sort results in asc or desc order of total networks",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total networks",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTvl",
+            "description": "Sort results in asc or desc order of TVL value",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of TVL value",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "The number of records to skip for pagination",
+            "schema": {
+              "type": "string",
+              "default": "0",
+              "description": "The number of records to skip for pagination",
+              "example": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "take",
+            "description": "The number of records to return for pagination",
+            "schema": {
+              "type": "string",
+              "default": "12",
+              "description": "The number of records to return for pagination",
+              "example": 12
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The vaults found for the requested operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string",
+                            "pattern": "^0x[a-fA-F0-9]{40}$",
+                            "description": "The contract address of the vault",
+                            "example": "0xe1f23869776c82f691d9cb34597ab1830fb0de58"
+                          },
+                          "metadataName": {
+                            "type": "string",
+                            "description": "The name of the Vault",
+                            "example": "Example Vault Name"
+                          },
+                          "metadataDescription": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "The description of the Vault",
+                            "example": "This is an example Vault"
+                          },
+                          "metadataTags": {
+                            "type": "array",
+                            "nullable": true,
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Tags describing the vault's configuration, supported tokens and affiliations within the Symbiotic ecosystem.",
+                            "example": [
+                              "vault",
+                              "token: "
+                            ]
+                          },
+                          "metadataLogo": {
+                            "type": "string",
+                            "nullable": true,
+                            "format": "uri",
+                            "description": "The URL of the Vault's logo"
+                          },
+                          "collateralAddress": {
+                            "type": "string",
+                            "description": "The token address accepted as collateral in the vault",
+                            "example": "0x93a2db22b7c736b341c32ff666307f4a9ed910f5"
+                          },
+                          "delegatorAddress": {
+                            "type": "string",
+                            "description": "The address authorized to delegate the vault's collateral",
+                            "example": "0x094934bed37db229b6534621446e5b162aade546"
+                          },
+                          "slasherAddress": {
+                            "type": "string",
+                            "description": "The address responsible for initiating slashing events in case of operator misbehavior",
+                            "example": "0xc24eb8f1b9a99476b5a1f3779ee9129854f10540"
+                          },
+                          "createdAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the vault was registered",
+                            "example": "19631203"
+                          },
+                          "updatedAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the vault registration was last updated",
+                            "example": "19631203"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "description": "The time stamp at which the vault was registered",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "description": "The time stamp at which the vault registration was last updated",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "totalOperators": {
+                            "type": "number",
+                            "description": "The total number of operators currently receiving delegated collateral from this vault",
+                            "example": 10
+                          },
+                          "totalNetworks": {
+                            "type": "number",
+                            "description": "The total number of networks this vault is supporting through delegated collateral",
+                            "example": 10
+                          },
+                          "tvl": {
+                            "type": "number",
+                            "description": "The total amount of collateral (in token units) currently deposited in this vault",
+                            "example": 10
+                          },
+                          "tvlUsd": {
+                            "type": "number",
+                            "description": "The total value currently deposited in this vault, denominated in USD",
+                            "example": 100
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "metadataName",
+                          "metadataDescription",
+                          "metadataTags",
+                          "metadataLogo",
+                          "collateralAddress",
+                          "delegatorAddress",
+                          "slasherAddress",
+                          "createdAtBlock",
+                          "updatedAtBlock",
+                          "createdAt",
+                          "updatedAt",
+                          "totalOperators",
+                          "totalNetworks",
+                          "tvl",
+                          "tvlUsd"
+                        ]
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number",
+                          "description": "Total number of records in the database",
+                          "example": 30
+                        },
+                        "skip": {
+                          "type": "number",
+                          "description": "The number of skiped records for this query",
+                          "example": 0
+                        },
+                        "take": {
+                          "type": "number",
+                          "description": "The number of records returned for this query",
+                          "example": 12
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "skip",
+                        "take"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/operators/{address}/networks": {
+      "get": {
+        "operationId": "getOperatorNetworks",
+        "summary": "Retrieve networks for a given operator address",
+        "description": "Returns a list of networks for a given operator address. This endpoint supports pagination.",
+        "tags": [
+          "Operators"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "description": "The address of the operator",
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$",
+              "description": "The address of the operator",
+              "example": "0xd741f826c60dacebb8835278e0f18f1c5dd4c6d0"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "sortByTotalOperators",
+            "description": "Sort results in asc or desc order of total operators",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total operators",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTotalVaults",
+            "description": "Sort results in asc or desc order of total vaults",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total vaults",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTvl",
+            "description": "Sort results in asc or desc order of TVL value",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of TVL value",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "The number of records to skip for pagination",
+            "schema": {
+              "type": "string",
+              "default": "0",
+              "description": "The number of records to skip for pagination",
+              "example": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "take",
+            "description": "The number of records to return for pagination",
+            "schema": {
+              "type": "string",
+              "default": "12",
+              "description": "The number of records to return for pagination",
+              "example": 12
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The networks found for the requested operator.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string",
+                            "pattern": "^0x[a-fA-F0-9]{40}$",
+                            "description": "The address of the network",
+                            "example": "0xe4661bdbc4f557d2684f8a7c4af50572e51d4166"
+                          },
+                          "metadataName": {
+                            "type": "string",
+                            "description": "The name of the Network",
+                            "example": "Example Network Name"
+                          },
+                          "metadataDescription": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "The description of the Network",
+                            "example": "This is an example Network"
+                          },
+                          "metadataTags": {
+                            "type": "array",
+                            "nullable": true,
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Tags specifying the network's functionalities, supported services, and affiliations within the Symbiotic ecosystem.",
+                            "example": [
+                              "network",
+                              "data availability"
+                            ]
+                          },
+                          "metadataLogo": {
+                            "type": "string",
+                            "nullable": true,
+                            "format": "uri",
+                            "description": "The URL of the Network's logo"
+                          },
+                          "createdAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the network was registered",
+                            "example": "19631203"
+                          },
+                          "updatedAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the network registration was last updated",
+                            "example": "19631203"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "description": "The timestamp at which the network was registered",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "description": "The timestamp at which the network registration was last updated",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "totalOperators": {
+                            "type": "number",
+                            "description": "The total number of operators associated with the network",
+                            "example": 10
+                          },
+                          "totalVaults": {
+                            "type": "number",
+                            "description": "The total number of vaults linked to the network",
+                            "example": 10
+                          },
+                          "tvlUsd": {
+                            "type": "number",
+                            "description": "The total value locked (TVL) in the network, denominated in USD",
+                            "example": 100
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "metadataName",
+                          "metadataDescription",
+                          "metadataTags",
+                          "metadataLogo",
+                          "createdAtBlock",
+                          "updatedAtBlock",
+                          "createdAt",
+                          "updatedAt",
+                          "totalOperators",
+                          "totalVaults",
+                          "tvlUsd"
+                        ]
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number",
+                          "description": "Total number of records in the database",
+                          "example": 30
+                        },
+                        "skip": {
+                          "type": "number",
+                          "description": "The number of skiped records for this query",
+                          "example": 0
+                        },
+                        "take": {
+                          "type": "number",
+                          "description": "The number of records returned for this query",
+                          "example": 12
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "skip",
+                        "take"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/vaults": {
+      "get": {
+        "operationId": "getAllVaults",
+        "summary": "Retrieve all vaults",
+        "description": "Returns all vault records. This endpoint supports pagination.",
+        "tags": [
+          "Vaults"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sortByTotalOperators",
+            "description": "Sort results in asc or desc order of total operators",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total operators",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTotalNetworks",
+            "description": "Sort results in asc or desc order of total networks",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total networks",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTvl",
+            "description": "Sort results in asc or desc order of TVL value",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of TVL value",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "The number of records to skip for pagination",
+            "schema": {
+              "type": "string",
+              "default": "0",
+              "description": "The number of records to skip for pagination",
+              "example": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "take",
+            "description": "The number of records to return for pagination",
+            "schema": {
+              "type": "string",
+              "default": "12",
+              "description": "The number of records to return for pagination",
+              "example": 12
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of vault records.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string",
+                            "pattern": "^0x[a-fA-F0-9]{40}$",
+                            "description": "The contract address of the vault",
+                            "example": "0xe1f23869776c82f691d9cb34597ab1830fb0de58"
+                          },
+                          "metadataName": {
+                            "type": "string",
+                            "description": "The name of the Vault",
+                            "example": "Example Vault Name"
+                          },
+                          "metadataDescription": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "The description of the Vault",
+                            "example": "This is an example Vault"
+                          },
+                          "metadataTags": {
+                            "type": "array",
+                            "nullable": true,
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Tags describing the vault's configuration, supported tokens and affiliations within the Symbiotic ecosystem.",
+                            "example": [
+                              "vault",
+                              "token: "
+                            ]
+                          },
+                          "metadataLogo": {
+                            "type": "string",
+                            "nullable": true,
+                            "format": "uri",
+                            "description": "The URL of the Vault's logo"
+                          },
+                          "collateralAddress": {
+                            "type": "string",
+                            "description": "The token address accepted as collateral in the vault",
+                            "example": "0x93a2db22b7c736b341c32ff666307f4a9ed910f5"
+                          },
+                          "delegatorAddress": {
+                            "type": "string",
+                            "description": "The address authorized to delegate the vault's collateral",
+                            "example": "0x094934bed37db229b6534621446e5b162aade546"
+                          },
+                          "slasherAddress": {
+                            "type": "string",
+                            "description": "The address responsible for initiating slashing events in case of operator misbehavior",
+                            "example": "0xc24eb8f1b9a99476b5a1f3779ee9129854f10540"
+                          },
+                          "createdAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the vault was registered",
+                            "example": "19631203"
+                          },
+                          "updatedAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the vault registration was last updated",
+                            "example": "19631203"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "description": "The time stamp at which the vault was registered",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "description": "The time stamp at which the vault registration was last updated",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "totalOperators": {
+                            "type": "number",
+                            "description": "The total number of operators currently receiving delegated collateral from this vault",
+                            "example": 10
+                          },
+                          "totalNetworks": {
+                            "type": "number",
+                            "description": "The total number of networks this vault is supporting through delegated collateral",
+                            "example": 10
+                          },
+                          "tvl": {
+                            "type": "number",
+                            "description": "The total amount of collateral (in token units) currently deposited in this vault",
+                            "example": 10
+                          },
+                          "tvlUsd": {
+                            "type": "number",
+                            "description": "The total value currently deposited in this vault, denominated in USD",
+                            "example": 100
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "metadataName",
+                          "metadataDescription",
+                          "metadataTags",
+                          "metadataLogo",
+                          "collateralAddress",
+                          "delegatorAddress",
+                          "slasherAddress",
+                          "createdAtBlock",
+                          "updatedAtBlock",
+                          "createdAt",
+                          "updatedAt",
+                          "totalOperators",
+                          "totalNetworks",
+                          "tvl",
+                          "tvlUsd"
+                        ]
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number",
+                          "description": "Total number of records in the database",
+                          "example": 30
+                        },
+                        "skip": {
+                          "type": "number",
+                          "description": "The number of skiped records for this query",
+                          "example": 0
+                        },
+                        "take": {
+                          "type": "number",
+                          "description": "The number of records returned for this query",
+                          "example": 12
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "skip",
+                        "take"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/vaults/{address}": {
+      "get": {
+        "operationId": "getVaultByAddress",
+        "summary": "Retrieve a vault by address",
+        "description": "Returns a vault record by address.",
+        "tags": [
+          "Vaults"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "description": "The address of the vault",
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$",
+              "description": "The address of the vault",
+              "example": "0xe1f23869776c82f691d9cb34597ab1830fb0de58"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The record of the requested vault.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "address": {
+                      "type": "string",
+                      "pattern": "^0x[a-fA-F0-9]{40}$",
+                      "description": "The contract address of the vault",
+                      "example": "0xe1f23869776c82f691d9cb34597ab1830fb0de58"
+                    },
+                    "metadataName": {
+                      "type": "string",
+                      "description": "The name of the Vault",
+                      "example": "Example Vault Name"
+                    },
+                    "metadataDescription": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "The description of the Vault",
+                      "example": "This is an example Vault"
+                    },
+                    "metadataTags": {
+                      "type": "array",
+                      "nullable": true,
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Tags describing the vault's configuration, supported tokens and affiliations within the Symbiotic ecosystem.",
+                      "example": [
+                        "vault",
+                        "token: "
+                      ]
+                    },
+                    "metadataLogo": {
+                      "type": "string",
+                      "nullable": true,
+                      "format": "uri",
+                      "description": "The URL of the Vault's logo"
+                    },
+                    "collateralAddress": {
+                      "type": "string",
+                      "description": "The token address accepted as collateral in the vault",
+                      "example": "0x93a2db22b7c736b341c32ff666307f4a9ed910f5"
+                    },
+                    "delegatorAddress": {
+                      "type": "string",
+                      "description": "The address authorized to delegate the vault's collateral",
+                      "example": "0x094934bed37db229b6534621446e5b162aade546"
+                    },
+                    "slasherAddress": {
+                      "type": "string",
+                      "description": "The address responsible for initiating slashing events in case of operator misbehavior",
+                      "example": "0xc24eb8f1b9a99476b5a1f3779ee9129854f10540"
+                    },
+                    "createdAtBlock": {
+                      "type": "string",
+                      "description": "The block number at which the vault was registered",
+                      "example": "19631203"
+                    },
+                    "updatedAtBlock": {
+                      "type": "string",
+                      "description": "The block number at which the vault registration was last updated",
+                      "example": "19631203"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "description": "The time stamp at which the vault was registered",
+                      "example": "2024-04-11T08:31:11.000Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "description": "The time stamp at which the vault registration was last updated",
+                      "example": "2024-04-11T08:31:11.000Z"
+                    },
+                    "totalOperators": {
+                      "type": "number",
+                      "description": "The total number of operators currently receiving delegated collateral from this vault",
+                      "example": 10
+                    },
+                    "totalNetworks": {
+                      "type": "number",
+                      "description": "The total number of networks this vault is supporting through delegated collateral",
+                      "example": 10
+                    },
+                    "tvl": {
+                      "type": "number",
+                      "description": "The total amount of collateral (in token units) currently deposited in this vault",
+                      "example": 10
+                    },
+                    "tvlUsd": {
+                      "type": "number",
+                      "description": "The total value currently deposited in this vault, denominated in USD",
+                      "example": 100
+                    }
+                  },
+                  "required": [
+                    "address",
+                    "metadataName",
+                    "metadataDescription",
+                    "metadataTags",
+                    "metadataLogo",
+                    "collateralAddress",
+                    "delegatorAddress",
+                    "slasherAddress",
+                    "createdAtBlock",
+                    "updatedAtBlock",
+                    "createdAt",
+                    "updatedAt",
+                    "totalOperators",
+                    "totalNetworks",
+                    "tvl",
+                    "tvlUsd"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/vaults/{address}/networks": {
+      "get": {
+        "operationId": "getVaultNetworks",
+        "summary": "Retrieve networks for a given vault address",
+        "description": "Returns a list of networks for a given vault address. This endpoint supports pagination.",
+        "tags": [
+          "Vaults"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "description": "The address of the vault",
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$",
+              "description": "The address of the vault",
+              "example": "0xe1f23869776c82f691d9cb34597ab1830fb0de58"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "sortByTotalOperators",
+            "description": "Sort results in asc or desc order of total operators",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total operators",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTotalVaults",
+            "description": "Sort results in asc or desc order of total vaults",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total vaults",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTvl",
+            "description": "Sort results in asc or desc order of TVL value",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of TVL value",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "The number of records to skip for pagination",
+            "schema": {
+              "type": "string",
+              "default": "0",
+              "description": "The number of records to skip for pagination",
+              "example": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "take",
+            "description": "The number of records to return for pagination",
+            "schema": {
+              "type": "string",
+              "default": "12",
+              "description": "The number of records to return for pagination",
+              "example": 12
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The networks found for the requested vault.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string",
+                            "pattern": "^0x[a-fA-F0-9]{40}$",
+                            "description": "The address of the network",
+                            "example": "0xe4661bdbc4f557d2684f8a7c4af50572e51d4166"
+                          },
+                          "metadataName": {
+                            "type": "string",
+                            "description": "The name of the Network",
+                            "example": "Example Network Name"
+                          },
+                          "metadataDescription": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "The description of the Network",
+                            "example": "This is an example Network"
+                          },
+                          "metadataTags": {
+                            "type": "array",
+                            "nullable": true,
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Tags specifying the network's functionalities, supported services, and affiliations within the Symbiotic ecosystem.",
+                            "example": [
+                              "network",
+                              "data availability"
+                            ]
+                          },
+                          "metadataLogo": {
+                            "type": "string",
+                            "nullable": true,
+                            "format": "uri",
+                            "description": "The URL of the Network's logo"
+                          },
+                          "createdAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the network was registered",
+                            "example": "19631203"
+                          },
+                          "updatedAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the network registration was last updated",
+                            "example": "19631203"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "description": "The timestamp at which the network was registered",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "description": "The timestamp at which the network registration was last updated",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "totalOperators": {
+                            "type": "number",
+                            "description": "The total number of operators associated with the network",
+                            "example": 10
+                          },
+                          "totalVaults": {
+                            "type": "number",
+                            "description": "The total number of vaults linked to the network",
+                            "example": 10
+                          },
+                          "tvlUsd": {
+                            "type": "number",
+                            "description": "The total value locked (TVL) in the network, denominated in USD",
+                            "example": 100
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "metadataName",
+                          "metadataDescription",
+                          "metadataTags",
+                          "metadataLogo",
+                          "createdAtBlock",
+                          "updatedAtBlock",
+                          "createdAt",
+                          "updatedAt",
+                          "totalOperators",
+                          "totalVaults",
+                          "tvlUsd"
+                        ]
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number",
+                          "description": "Total number of records in the database",
+                          "example": 30
+                        },
+                        "skip": {
+                          "type": "number",
+                          "description": "The number of skiped records for this query",
+                          "example": 0
+                        },
+                        "take": {
+                          "type": "number",
+                          "description": "The number of records returned for this query",
+                          "example": 12
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "skip",
+                        "take"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/vaults/{address}/operators": {
+      "get": {
+        "operationId": "getVaultOperators",
+        "summary": "Retrieve operators for a given vault address",
+        "description": "Returns a list of operators for a given vault address. This endpoint supports pagination.",
+        "tags": [
+          "Vaults"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "description": "The address of the vault",
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$",
+              "description": "The address of the vault",
+              "example": "0xe1f23869776c82f691d9cb34597ab1830fb0de58"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "sortByTotalNetworks",
+            "description": "Sort results in asc or desc order of total networks",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total networks",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTotalVaults",
+            "description": "Sort results in asc or desc order of total vaults",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of total vaults",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sortByTvl",
+            "description": "Sort results in asc or desc order of TVL value",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "description": "Sort results in asc or desc order of TVL value",
+              "example": "desc"
+            }
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "The number of records to skip for pagination",
+            "schema": {
+              "type": "string",
+              "default": "0",
+              "description": "The number of records to skip for pagination",
+              "example": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "take",
+            "description": "The number of records to return for pagination",
+            "schema": {
+              "type": "string",
+              "default": "12",
+              "description": "The number of records to return for pagination",
+              "example": 12
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operators found for the requested vault.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string",
+                            "pattern": "^0x[a-fA-F0-9]{40}$",
+                            "description": "The address of the operator",
+                            "example": "0xd741f826c60dacebb8835278e0f18f1c5dd4c6d0"
+                          },
+                          "metadataName": {
+                            "type": "string",
+                            "description": "The name of the Operator",
+                            "example": "Example Operator Name"
+                          },
+                          "metadataDescription": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "The description of the Operator",
+                            "example": "This is an example Operator"
+                          },
+                          "metadataTags": {
+                            "type": "array",
+                            "nullable": true,
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Tags identifying the operator's roles, services, and affiliations within the Symbiotic ecosystem.​",
+                            "example": [
+                              "operator"
+                            ]
+                          },
+                          "metadataLogo": {
+                            "type": "string",
+                            "nullable": true,
+                            "format": "uri",
+                            "description": "The URL of the Operator's logo"
+                          },
+                          "createdAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the operator was registered",
+                            "example": "19631203"
+                          },
+                          "updatedAtBlock": {
+                            "type": "string",
+                            "description": "The block number at which the operator registration was last updated",
+                            "example": "19631203"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "description": "The timestamp at which the operator was registered",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "description": "The timestamp at which the operator registration was last updated",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "totalNetworks": {
+                            "type": "number",
+                            "description": "The total number of networks opted by the operator",
+                            "example": 10
+                          },
+                          "totalVaults": {
+                            "type": "number",
+                            "description": "The total number of vaults the operator contributes to",
+                            "example": 10
+                          },
+                          "tvlUsd": {
+                            "type": "number",
+                            "description": "Total value locked (TVL) managed by the operator across all vaults, denominated in USD",
+                            "example": 100
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "metadataName",
+                          "metadataDescription",
+                          "metadataTags",
+                          "metadataLogo",
+                          "createdAtBlock",
+                          "updatedAtBlock",
+                          "createdAt",
+                          "updatedAt",
+                          "totalNetworks",
+                          "totalVaults",
+                          "tvlUsd"
+                        ]
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number",
+                          "description": "Total number of records in the database",
+                          "example": 30
+                        },
+                        "skip": {
+                          "type": "number",
+                          "description": "The number of skiped records for this query",
+                          "example": 0
+                        },
+                        "take": {
+                          "type": "number",
+                          "description": "The number of records returned for this query",
+                          "example": 12
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "skip",
+                        "take"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
     }
   },
   "components": {
-    "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
+    "responses": {
+      "400": {
+        "description": "The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "bad_request"
+                      ],
+                      "description": "A short code indicating the error code returned.",
+                      "example": "bad_request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "A human readable explanation of what went wrong.",
+                      "example": "The requested resource was not found."
+                    },
+                    "doc_url": {
+                      "type": "string",
+                      "description": "A link to our documentation with more details about this error code",
+                      "example": "https://docs.symbioticexplorer.com/api-reference/errors#bad_request"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              },
+              "required": [
+                "error"
+              ]
             }
           }
-        ]
+        }
       },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
+      "401": {
+        "description": "Although the HTTP standard specifies \"unauthorized\", semantically this response means \"unauthenticated\". That is, the client must authenticate itself to get the requested response.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unauthorized"
+                      ],
+                      "description": "A short code indicating the error code returned.",
+                      "example": "unauthorized"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "A human readable explanation of what went wrong.",
+                      "example": "The requested resource was not found."
+                    },
+                    "doc_url": {
+                      "type": "string",
+                      "description": "A link to our documentation with more details about this error code",
+                      "example": "https://docs.symbioticexplorer.com/api-reference/errors#unauthorized"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              },
+              "required": [
+                "error"
+              ]
+            }
           }
         }
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
+      },
+      "403": {
+        "description": "The client does not have access rights to the content; that is, it is unauthorized, so the server is refusing to give the requested resource. Unlike 401 Unauthorized, the client's identity is known to the server.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "forbidden"
+                      ],
+                      "description": "A short code indicating the error code returned.",
+                      "example": "forbidden"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "A human readable explanation of what went wrong.",
+                      "example": "The requested resource was not found."
+                    },
+                    "doc_url": {
+                      "type": "string",
+                      "description": "A link to our documentation with more details about this error code",
+                      "example": "https://docs.symbioticexplorer.com/api-reference/errors#forbidden"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              },
+              "required": [
+                "error"
+              ]
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "The server cannot find the requested resource.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "not_found"
+                      ],
+                      "description": "A short code indicating the error code returned.",
+                      "example": "not_found"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "A human readable explanation of what went wrong.",
+                      "example": "The requested resource was not found."
+                    },
+                    "doc_url": {
+                      "type": "string",
+                      "description": "A link to our documentation with more details about this error code",
+                      "example": "https://docs.symbioticexplorer.com/api-reference/errors#not_found"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              },
+              "required": [
+                "error"
+              ]
+            }
+          }
+        }
+      },
+      "422": {
+        "description": "The request was well-formed but was unable to be followed due to semantic errors.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "unprocessable_entity"
+                      ],
+                      "description": "A short code indicating the error code returned.",
+                      "example": "unprocessable_entity"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "A human readable explanation of what went wrong.",
+                      "example": "The requested resource was not found."
+                    },
+                    "doc_url": {
+                      "type": "string",
+                      "description": "A link to our documentation with more details about this error code",
+                      "example": "https://docs.symbioticexplorer.com/api-reference/errors#unprocessable_entity"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              },
+              "required": [
+                "error"
+              ]
+            }
+          }
+        }
+      },
+      "429": {
+        "description": "The user has sent too many requests in a given amount of time (\"rate limiting\")",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "rate_limit_exceeded"
+                      ],
+                      "description": "A short code indicating the error code returned.",
+                      "example": "rate_limit_exceeded"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "A human readable explanation of what went wrong.",
+                      "example": "The requested resource was not found."
+                    },
+                    "doc_url": {
+                      "type": "string",
+                      "description": "A link to our documentation with more details about this error code",
+                      "example": "https://docs.symbioticexplorer.com/api-reference/errors#rate_limit_exceeded"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              },
+              "required": [
+                "error"
+              ]
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "The server has encountered a situation it does not know how to handle.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "internal_server_error"
+                      ],
+                      "description": "A short code indicating the error code returned.",
+                      "example": "internal_server_error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "A human readable explanation of what went wrong.",
+                      "example": "The requested resource was not found."
+                    },
+                    "doc_url": {
+                      "type": "string",
+                      "description": "A link to our documentation with more details about this error code",
+                      "example": "https://docs.symbioticexplorer.com/api-reference/errors#internal_server_error"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              },
+              "required": [
+                "error"
+              ]
+            }
+          }
+        }
       }
     }
   }
