@@ -1,102 +1,100 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "SymbioticExplorer Docs",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+      "primary": "#71717a",
+      "light": "#ffffff",
+      "dark": "#27272a"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/public/logo.svg",
   "navigation": {
-    "tabs": [
-      {
-        "tab": "Guides",
-        "groups": [
+      "tabs": [
           {
-            "group": "Get Started",
-            "pages": [
-              "introduction",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Essentials",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
-            ]
+              "tab": "API Reference",
+              "groups": [
+                  {
+                      "group": "API Endpoints",
+                      "pages": [
+                          {
+                              "group": "System Status",
+                              "icon": "solar-system",
+                              "pages": [
+                                  "api-reference/endpoint/system/retrieve-api-server-version",
+                                  "api-reference/endpoint/system/retrieve-api-server-status"
+                              ]
+                          },
+                          {
+                              "group": "Networks",
+                              "icon": "cubes",
+                              "pages": [
+                                  "api-reference/endpoint/networks/retrieve-all-networks",
+                                  "api-reference/endpoint/networks/retrieve-a-network-by-address",
+                                  "api-reference/endpoint/networks/retrieve-all-operators-for-a-given-network-address",
+                                  "api-reference/endpoint/networks/retrieve-all-vaults-for-a-given-network-address"
+                              ]
+                          },
+                          {
+                              "group": "Operators",
+                              "icon": "circle-nodes",
+                              "pages": [
+                                  "api-reference/endpoint/operators/retrieve-all-operators",
+                                  "api-reference/endpoint/operators/retrieve-an-operator-by-address",
+                                  "api-reference/endpoint/operators/retrieve-all-networks-for-a-given-operator-address",
+                                  "api-reference/endpoint/operators/retrieve-all-vaults-for-a-given-operator-address"
+                              ]
+                          },
+                          {
+                              "group": "Vaults",
+                              "icon": "badge-dollar",
+                              "pages": [
+                                  "api-reference/endpoint/vaults/retrieve-all-vaults",
+                                  "api-reference/endpoint/vaults/retrieve-a-vault-by-address",
+                                  "api-reference/endpoint/vaults/retrieve-all-operators-for-a-given-vault-address",
+                                  "api-reference/endpoint/vaults/retrieve-all-networks-for-a-given-vault-address"
+                              ]
+                          }
+                      ]
+                  }
+              ]
           }
-        ]
-      },
-      {
-        "tab": "API Reference",
-        "groups": [
-          {
-            "group": "API Documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint Examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
-          }
-        ]
-      }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
       ]
-    }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+      "light": "/public/logo/logo-light.svg",
+      "dark": "/public/logo/logo-dark.svg"
+  },
+  "api": {
+      "mdx": {
+          "server": ["https://api.symbioticexplorer.com"]
+      }
+  },
+  "background": {
+      "decoration": "grid",
+      "color": {
+          "light": "#ffffff",
+          "dark": "#131419"
+      }
   },
   "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+      "links": [
+          {
+              "label": "Developer Dashboard",
+              "href": "https://developer.eigenexplorer.com"
+          }
+      ],
+      "primary": {
+          "type": "button",
+          "label": "Dashboard",
+          "href": "https://dashboard.eigenexplorer.com"
       }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
   },
   "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+      "socials": {
+          "twitter": "https://twitter.com/eigenexplorer",
+          "telegram": "https://t.me/eigenexplorer",
+          "discord": "https://discord.gg/3aTdnXgGNg",
+          "github": "https://github.com/eigenexplorer"
+      }
   }
 }
