@@ -25,6 +25,32 @@
                               ]
                           },
                           {
+                                "group": "Ecosystem Metrics",
+                                "icon": "arrow-up-right-dots",
+                                "pages": [
+                                    "api-reference/endpoint/metrics/retrieve-summary-metrics",
+                                    "api-reference/endpoint/metrics/retrieve-total-tvl",
+                                    "api-reference/endpoint/metrics/retrieve-total-number-of-networks",
+                                    "api-reference/endpoint/metrics/retrieve-total-number-of-network-operators",
+                                    "api-reference/endpoint/metrics/retrieve-total-number-of-network-stakers",
+                                    "api-reference/endpoint/metrics/retrieve-total-number-of-vaults"
+                                ]
+                            },
+                            {
+                                "group": "Historical Metrics",
+                                "icon": "rectangle-history",
+                                "pages": [
+                                    "api-reference/endpoint/historical/retrieve-historical-total-metrics",
+                                    "api-reference/endpoint/historical/retrieve-historical-tvl",
+                                    "api-reference/endpoint/historical/retrieve-historical-networks-count",
+                                    "api-reference/endpoint/historical/retrieve-historical-operators-count",
+                                    "api-reference/endpoint/historical/retrieve-historical-vaults-count",
+                                    "api-reference/endpoint/historical/retrieve-historical-network-metrics",
+                                    "api-reference/endpoint/historical/retrieve-historical-operator-metrics",
+                                    "api-reference/endpoint/historical/retrieve-historical-vault-metrics"
+                                ]
+                            },
+                          {
                               "group": "Networks",
                               "icon": "cubes",
                               "pages": [
