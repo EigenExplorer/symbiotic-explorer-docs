@@ -229,7 +229,7 @@
                     "value": {
                       "type": "number",
                       "description": "The total number of Networks registered",
-                      "example": 1000000
+                      "example": 100
                     }
                   },
                   "required": [
@@ -282,7 +282,7 @@
                     "value": {
                       "type": "number",
                       "description": "The total number of Network operators registered",
-                      "example": 1000000
+                      "example": 100
                     }
                   },
                   "required": [
@@ -335,7 +335,7 @@
                     "value": {
                       "type": "number",
                       "description": "The total number of Network stakers registered",
-                      "example": 1000000
+                      "example": 100
                     }
                   },
                   "required": [
@@ -388,7 +388,7 @@
                     "value": {
                       "type": "number",
                       "description": "The total number of Vaults registered",
-                      "example": 1000000
+                      "example": 100
                     }
                   },
                   "required": [
