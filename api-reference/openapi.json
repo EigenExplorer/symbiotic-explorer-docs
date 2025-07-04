@@ -80,6 +80,1422 @@
         }
       }
     },
+    "/metrics": {
+      "get": {
+        "operationId": "getAllMetrics",
+        "summary": "Retrieve summary metrics",
+        "description": "Returns summary metrics, including TVL, as well as the total number of networks, operators, stakers and vaults.",
+        "tags": [
+          "Metrics"
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of summary metrics.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tvlUsd": {
+                      "type": "number",
+                      "description": "The total value locked (TVL) in USD in the Symbiotic ecosystem",
+                      "example": 1000000
+                    },
+                    "totalNetworks": {
+                      "type": "number",
+                      "description": "The total number of Networks",
+                      "example": 10
+                    },
+                    "totalOperators": {
+                      "type": "number",
+                      "description": "The total number of Network operators",
+                      "example": 10
+                    },
+                    "totalVaults": {
+                      "type": "number",
+                      "description": "The total number of Vaults",
+                      "example": 10
+                    },
+                    "totalStakers": {
+                      "type": "number",
+                      "description": "The total number of Network stakers",
+                      "example": 10
+                    }
+                  },
+                  "required": [
+                    "tvlUsd",
+                    "totalNetworks",
+                    "totalOperators",
+                    "totalVaults",
+                    "totalStakers"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/metrics/tvl": {
+      "get": {
+        "operationId": "getTvlMetrics",
+        "summary": "Retrieve total TVL",
+        "description": "Returns the total value locked (TVL) in the Symbiotic ecosystem.",
+        "tags": [
+          "Metrics"
+        ],
+        "responses": {
+          "200": {
+            "description": "The value of the combined TVL in USD.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "description": "The total value locked (TVL) in USD in the Symbiotic ecosystem",
+                      "example": 1000000
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/metrics/total-networks": {
+      "get": {
+        "operationId": "getTotalNetworksMetric",
+        "summary": "Retrieve total number of networks",
+        "description": "Returns the total number of networks registered.",
+        "tags": [
+          "Metrics"
+        ],
+        "responses": {
+          "200": {
+            "description": "The total number of networks registered.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "description": "The total number of Networks registered",
+                      "example": 1000000
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/metrics/total-operators": {
+      "get": {
+        "operationId": "getTotalOperatorsMetric",
+        "summary": "Retrieve total number of network operators",
+        "description": "Returns the total number of network operators registered.",
+        "tags": [
+          "Metrics"
+        ],
+        "responses": {
+          "200": {
+            "description": "The total number of network operators registered.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "description": "The total number of Network operators registered",
+                      "example": 1000000
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/metrics/total-stakers": {
+      "get": {
+        "operationId": "getTotalStakersMetric",
+        "summary": "Retrieve total number of network stakers",
+        "description": "Returns the total number of network stakers registered.",
+        "tags": [
+          "Metrics"
+        ],
+        "responses": {
+          "200": {
+            "description": "The total number of network stakers registered.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "description": "The total number of Network stakers registered",
+                      "example": 1000000
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/metrics/total-vaults": {
+      "get": {
+        "operationId": "getTotalVaultsMetric",
+        "summary": "Retrieve total number of vaults",
+        "description": "Returns the total number of vaults registered.",
+        "tags": [
+          "Metrics"
+        ],
+        "responses": {
+          "200": {
+            "description": "The total number of vaults registered.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "description": "The total number of Vaults registered",
+                      "example": 1000000
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/metrics/historical/total": {
+      "get": {
+        "operationId": "getHistoricalTotalMetrics",
+        "summary": "Retrieve historical total metrics data",
+        "description": "Returns the historical metrics data over specified timestamp values",
+        "tags": [
+          "Metrics"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "frequency",
+            "description": "Frequency of data points",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1d",
+                "7d"
+              ],
+              "default": "1d",
+              "description": "Frequency of data points"
+            }
+          },
+          {
+            "in": "query",
+            "name": "variant",
+            "description": "Type of tally, discrete or cumulative",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "discrete",
+                "cumulative"
+              ],
+              "default": "cumulative",
+              "description": "Type of tally, discrete or cumulative",
+              "example": "cumulative"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startAt",
+            "description": "Start date in ISO string format",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "description": "Start date in ISO string format",
+              "example": "2024-04-11T08:31:11.000"
+            }
+          },
+          {
+            "in": "query",
+            "name": "endAt",
+            "description": "End date in ISO string format",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "description": "End date in ISO string format",
+              "example": "2024-04-12T08:31:11.000"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The historical metrics data over specified timestamp values.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "timestamp": {
+                            "type": "string",
+                            "description": "The timestamp for the corresponding values",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "tvlUsd": {
+                            "type": "number",
+                            "description": "The value of TVL in USD",
+                            "example": 10000
+                          },
+                          "totalNetworks": {
+                            "type": "number",
+                            "description": "The total number of Networks",
+                            "example": 10
+                          },
+                          "totalOperators": {
+                            "type": "number",
+                            "description": "The total number of Operators",
+                            "example": 10
+                          },
+                          "totalVaults": {
+                            "type": "number",
+                            "description": "The total number of Vaults",
+                            "example": 10
+                          }
+                        },
+                        "required": [
+                          "timestamp",
+                          "tvlUsd",
+                          "totalNetworks",
+                          "totalOperators",
+                          "totalVaults"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/metrics/historical/tvl": {
+      "get": {
+        "operationId": "getHistoricalTvl",
+        "summary": "Retrieve historical total TVL data",
+        "description": "Returns the historical total value locked (TVL) data over specified timestamp values in USD.",
+        "tags": [
+          "Metrics"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "frequency",
+            "description": "Frequency of data points",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1d",
+                "7d"
+              ],
+              "default": "1d",
+              "description": "Frequency of data points"
+            }
+          },
+          {
+            "in": "query",
+            "name": "variant",
+            "description": "Type of tally, discrete or cumulative",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "discrete",
+                "cumulative"
+              ],
+              "default": "cumulative",
+              "description": "Type of tally, discrete or cumulative",
+              "example": "cumulative"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startAt",
+            "description": "Start date in ISO string format",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "description": "Start date in ISO string format",
+              "example": "2024-04-11T08:31:11.000"
+            }
+          },
+          {
+            "in": "query",
+            "name": "endAt",
+            "description": "End date in ISO string format",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "description": "End date in ISO string format",
+              "example": "2024-04-12T08:31:11.000"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The historical data of total TVL over specified timestamp values.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "timestamp": {
+                            "type": "string",
+                            "description": "The timestamp for the corresponding TVL value",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "value": {
+                            "type": "number",
+                            "description": "The value of TVL in USD",
+                            "example": 10000
+                          }
+                        },
+                        "required": [
+                          "timestamp",
+                          "value"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/metrics/historical/count-networks": {
+      "get": {
+        "operationId": "getHistoricalNetworkCount",
+        "summary": "Retrieve historical count of networks",
+        "description": "Returns the total number of networks registered at timestamp values.",
+        "tags": [
+          "Metrics"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "frequency",
+            "description": "Frequency of data points",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1d",
+                "7d"
+              ],
+              "default": "1d",
+              "description": "Frequency of data points"
+            }
+          },
+          {
+            "in": "query",
+            "name": "variant",
+            "description": "Type of tally, discrete or cumulative",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "discrete",
+                "cumulative"
+              ],
+              "default": "cumulative",
+              "description": "Type of tally, discrete or cumulative",
+              "example": "cumulative"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startAt",
+            "description": "Start date in ISO string format",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "description": "Start date in ISO string format",
+              "example": "2024-04-11T08:31:11.000"
+            }
+          },
+          {
+            "in": "query",
+            "name": "endAt",
+            "description": "End date in ISO string format",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "description": "End date in ISO string format",
+              "example": "2024-04-12T08:31:11.000"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The  total number of networks registered at timestamp values.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "timestamp": {
+                            "type": "string",
+                            "description": "The time stamp for the corresponding Network count ",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "value": {
+                            "type": "number",
+                            "description": "The total number of Networks registered ",
+                            "example": 10
+                          }
+                        },
+                        "required": [
+                          "timestamp",
+                          "value"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/metrics/historical/count-operators": {
+      "get": {
+        "operationId": "getHistoricalOperatorCount",
+        "summary": "Retrieve historical count of network operators",
+        "description": "Returns the total number of network operators registered at timestamp values.",
+        "tags": [
+          "Metrics"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "frequency",
+            "description": "Frequency of data points",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1d",
+                "7d"
+              ],
+              "default": "1d",
+              "description": "Frequency of data points"
+            }
+          },
+          {
+            "in": "query",
+            "name": "variant",
+            "description": "Type of tally, discrete or cumulative",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "discrete",
+                "cumulative"
+              ],
+              "default": "cumulative",
+              "description": "Type of tally, discrete or cumulative",
+              "example": "cumulative"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startAt",
+            "description": "Start date in ISO string format",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "description": "Start date in ISO string format",
+              "example": "2024-04-11T08:31:11.000"
+            }
+          },
+          {
+            "in": "query",
+            "name": "endAt",
+            "description": "End date in ISO string format",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "description": "End date in ISO string format",
+              "example": "2024-04-12T08:31:11.000"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The total number of network operators registered at timestamp values.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "timestamp": {
+                            "type": "string",
+                            "description": "The time stamp for the corresponding Network operators count ",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "value": {
+                            "type": "number",
+                            "description": "The total number of Network operators registered ",
+                            "example": 10
+                          }
+                        },
+                        "required": [
+                          "timestamp",
+                          "value"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/metrics/historical/count-vaults": {
+      "get": {
+        "operationId": "getHistoricalVaultCount",
+        "summary": "Retrieve historical count of vaults",
+        "description": "Returns the total number of vaults registered at timestamp values.",
+        "tags": [
+          "Metrics"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "frequency",
+            "description": "Frequency of data points",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1d",
+                "7d"
+              ],
+              "default": "1d",
+              "description": "Frequency of data points"
+            }
+          },
+          {
+            "in": "query",
+            "name": "variant",
+            "description": "Type of tally, discrete or cumulative",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "discrete",
+                "cumulative"
+              ],
+              "default": "cumulative",
+              "description": "Type of tally, discrete or cumulative",
+              "example": "cumulative"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startAt",
+            "description": "Start date in ISO string format",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "description": "Start date in ISO string format",
+              "example": "2024-04-11T08:31:11.000"
+            }
+          },
+          {
+            "in": "query",
+            "name": "endAt",
+            "description": "End date in ISO string format",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "description": "End date in ISO string format",
+              "example": "2024-04-12T08:31:11.000"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The total number of vaults registered at timestamp values.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "timestamp": {
+                            "type": "string",
+                            "description": "The time stamp for the corresponding vaults count ",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "value": {
+                            "type": "number",
+                            "description": "The total number of vaults registered ",
+                            "example": 10
+                          }
+                        },
+                        "required": [
+                          "timestamp",
+                          "value"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/metrics/historical/networks/{address}": {
+      "get": {
+        "operationId": "getHistoricalNetworkMetrics",
+        "summary": "Retrieve historical network metrics data",
+        "description": "Returns historical metrics data for a network including TVL, total number of vaults, and total number of operators at specified timestamp values.",
+        "tags": [
+          "Metrics"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "description": "The address of the network",
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$",
+              "description": "The address of the network",
+              "example": "0x8560c667ae72f28d09465b342a480dab28821f6b"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "frequency",
+            "description": "Frequency of data points",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1d",
+                "7d"
+              ],
+              "default": "1d",
+              "description": "Frequency of data points"
+            }
+          },
+          {
+            "in": "query",
+            "name": "variant",
+            "description": "Type of tally, discrete or cumulative",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "discrete",
+                "cumulative"
+              ],
+              "default": "cumulative",
+              "description": "Type of tally, discrete or cumulative",
+              "example": "cumulative"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startAt",
+            "description": "Start date in ISO string format",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "description": "Start date in ISO string format",
+              "example": "2024-04-11T08:31:11.000"
+            }
+          },
+          {
+            "in": "query",
+            "name": "endAt",
+            "description": "End date in ISO string format",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "description": "End date in ISO string format",
+              "example": "2024-04-12T08:31:11.000"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The historical metrics data for a network including TVL, total number of vaults, and total number of operators at specified timestamp values.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "timestamp": {
+                            "type": "string",
+                            "description": "The timestamp for the corresponding values",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "tvlUsd": {
+                            "type": "number",
+                            "description": "The value of TVL in USD",
+                            "example": 10000
+                          },
+                          "totalOperators": {
+                            "type": "number",
+                            "description": "The total number of Operators",
+                            "example": 10
+                          },
+                          "totalVaults": {
+                            "type": "number",
+                            "description": "The total number of Vaults",
+                            "example": 10
+                          }
+                        },
+                        "required": [
+                          "timestamp",
+                          "tvlUsd",
+                          "totalOperators",
+                          "totalVaults"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/metrics/historical/operators/{address}": {
+      "get": {
+        "operationId": "getHistoricalOperatorMetrics",
+        "summary": "Retrieve historical network operator metrics data",
+        "description": "Returns historical metrics data for an operator including TVL, total number of vaults, and total number of networks at specified timestamp values.",
+        "tags": [
+          "Metrics"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "description": "The address of the operator",
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$",
+              "description": "The address of the operator",
+              "example": "0x9431cad056a6398cc835dfb16baea7b1a8064c88"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "frequency",
+            "description": "Frequency of data points",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1d",
+                "7d"
+              ],
+              "default": "1d",
+              "description": "Frequency of data points"
+            }
+          },
+          {
+            "in": "query",
+            "name": "variant",
+            "description": "Type of tally, discrete or cumulative",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "discrete",
+                "cumulative"
+              ],
+              "default": "cumulative",
+              "description": "Type of tally, discrete or cumulative",
+              "example": "cumulative"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startAt",
+            "description": "Start date in ISO string format",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "description": "Start date in ISO string format",
+              "example": "2024-04-11T08:31:11.000"
+            }
+          },
+          {
+            "in": "query",
+            "name": "endAt",
+            "description": "End date in ISO string format",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "description": "End date in ISO string format",
+              "example": "2024-04-12T08:31:11.000"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The historical metrics data for a network operator including TVL, total number of vaults, and total number of networks at specified timestamp values.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "timestamp": {
+                            "type": "string",
+                            "description": "The timestamp for the corresponding values",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "tvlUsd": {
+                            "type": "number",
+                            "description": "The value of TVL in USD",
+                            "example": 10000
+                          },
+                          "totalNetworks": {
+                            "type": "number",
+                            "description": "The total number of Networks",
+                            "example": 10
+                          },
+                          "totalVaults": {
+                            "type": "number",
+                            "description": "The total number of Vaults",
+                            "example": 10
+                          }
+                        },
+                        "required": [
+                          "timestamp",
+                          "tvlUsd",
+                          "totalNetworks",
+                          "totalVaults"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/metrics/historical/vaults/{address}": {
+      "get": {
+        "operationId": "getHistoricalVaultMetrics",
+        "summary": "Retrieve historical vault metrics data",
+        "description": "Returns historical metrics data for a vault including TVL, total number of operators, and total number of networks at specified timestamp values.",
+        "tags": [
+          "Metrics"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "address",
+            "description": "The address of the vault",
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[a-fA-F0-9]{40}$",
+              "description": "The address of the vault",
+              "example": "0xc6132faf04627c8d05d6e759fabb331ef2d8f8fd"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "frequency",
+            "description": "Frequency of data points",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1d",
+                "7d"
+              ],
+              "default": "1d",
+              "description": "Frequency of data points"
+            }
+          },
+          {
+            "in": "query",
+            "name": "variant",
+            "description": "Type of tally, discrete or cumulative",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "discrete",
+                "cumulative"
+              ],
+              "default": "cumulative",
+              "description": "Type of tally, discrete or cumulative",
+              "example": "cumulative"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startAt",
+            "description": "Start date in ISO string format",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "description": "Start date in ISO string format",
+              "example": "2024-04-11T08:31:11.000"
+            }
+          },
+          {
+            "in": "query",
+            "name": "endAt",
+            "description": "End date in ISO string format",
+            "schema": {
+              "type": "string",
+              "default": "",
+              "description": "End date in ISO string format",
+              "example": "2024-04-12T08:31:11.000"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The historical metrics data for a vault including TVL, total number of operators, and total number of networks at specified timestamp values.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "timestamp": {
+                            "type": "string",
+                            "description": "The timestamp for the corresponding values",
+                            "example": "2024-04-11T08:31:11.000Z"
+                          },
+                          "tvlUsd": {
+                            "type": "number",
+                            "description": "The value of TVL in USD",
+                            "example": 10000
+                          },
+                          "totalNetworks": {
+                            "type": "number",
+                            "description": "The total number of Networks",
+                            "example": 10
+                          },
+                          "totalOperators": {
+                            "type": "number",
+                            "description": "The total number of Operators",
+                            "example": 10
+                          }
+                        },
+                        "required": [
+                          "timestamp",
+                          "tvlUsd",
+                          "totalNetworks",
+                          "totalOperators"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "422": {
+            "$ref": "#/components/responses/422"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
     "/networks": {
       "get": {
         "operationId": "getAllNetworks",
